@@ -38,9 +38,9 @@
     * <img src="FIGURES/RCNN/bb.png" width=300px> 
 
 ### 3. Results
-  * Objects detection
+  * **Objects detection**
     * <img src="FIGURES/RCNN/results.png">
-  * Detection average precision (%) on VOC 2007 test
+  * **Detection average precision (%) on VOC 2007 test**
     * <img src="FIGURES/RCNN/dap.png">
-  * Another feature extractor(O-Net)
+  * **Another feature extractor(O-Net)**
     * <img src="FIGURES/RCNN/onet.png">
