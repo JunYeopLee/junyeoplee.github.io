@@ -12,7 +12,7 @@
     * [Selective search](https://koen.me/research/pub/uijlings-ijcv2013-draft.pdf)<br>
     * <img src="FIGURES/RCNN/selective_search.png">
     * Bottom-up 방식의 Object region proposal method
-    * [Efficient Graph-Based Image Segmentation](https://www.cs.cornell.edu/~dph/papers/seg-ijcv.pdf)를 이용하여, region granularity를 찾은 뒤, greedy algorithm으로 점차 merge
+    * [Efficient Graph-Based Image Segmentation](https://www.cs.cornell.edu/~dph/papers/seg-ijcv.pdf)를 이용하여, region granularity를 찾은 뒤, greedy algorithm으로 hierarchical merge
     * Colour map(RGB,gray,HSV), merge하는 과정에서 사용하는 similarity measure(colour sim, texture sim, size sim)등을 여러 combination으로 사용해서, 다양한 region proposal을 만들어냄.
   * **Feature extraction(T-Net)**
     * [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
