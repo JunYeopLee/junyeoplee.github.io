@@ -32,11 +32,15 @@
           * 하지만 SVM의 경우 Deep한 CNN에 비해 비교적 적은 숫자의 data로도 훈련이 잘되기 때문에 이렇게 기준이 달라진 것.
           * 향후 연구에서 이 SVM은 대체가 된다
   * **Box regression**
-    * Selective search에서 propose한 region + T-Net feature를 이용하여 linear regression.
-    * Object detection scenario에서 성능이 더 좋아졌다.
+    * Selective search에서 propose한 region + CNN feature를 이용하여 linear regression.
+    * Region proposal --> Ground Truth로 fitting 시키는 linear regression model을 학습
+    * Object detection scenario에서 성능이 더 좋아졌다.
+    * <img src="FIGURES/RCNN/bb.png">
 
 ### 3. Results
   * Objects detection
     * <img src="FIGURES/RCNN/results.png">
+  * Detection average precision (%) on VOC 2007 test
+    * <img src="FIGURES/RCNN/dap.png">
   * Another feature extractor(O-Net)
     * <img src="FIGURES/RCNN/onet.png">
