@@ -22,7 +22,7 @@
       * Fine-tuning : VOC2007(20개 class) or ILSVRC2013(200개 class)에 대한 classification task를 수행하도록 fine tune. region proposal 중 GT와의 IoU가 0.5 이상인 box를 positive sample로, 이하인 box를 negative sample(background)로 사용.
   * **Object category classifiers(SVM)**
     * How to train
-      * Ground truth를 positive sample로 region proposal 중 IoU가 0.3 이하인 box들을 negative sample로 사용 (fine tune때보다 tight한 조건)
+      * Ground truth를 positive sample로 region proposal 중 IoU가 0.3 이하인 box들을 negative sample로 사용 (fine tune때보다 tight한 조건)
     * CNN+FN+softmax Classifier(for fine-tune) VS SVM
       * 왜 fine tune시에 훈련한 Classifier를 Object category classifier로 사용하지 않는가?
         * SVM이 분류 성능이 더 좋았다! 이유는 tight한 조건으로 뽑아낸 training sample 덕분일 것으로 예상.
