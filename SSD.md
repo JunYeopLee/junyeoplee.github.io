@@ -8,7 +8,7 @@
   
 ### 2. Network architecture
   * **Overview**
-    * <img src="FIGURES/SSD/overview.png">
+    * <img src="FIGURES/SSD/overview.PNG">
     * VGG16을 ImageNet에 pre-train 시킨 뒤 classification layer 제거
     * VGG16 backbone 뒤에 Convolution layer를 쌓아올린 구조. Feature map size가 점차 줄어듦.
     
@@ -21,7 +21,7 @@
     * classifier는 feature map의 각 cell마다 category score(c개의 class에 대한 확률분포)와 shape offset(cx, cy, width, heigth)을 생성
     
   * **Default boxes and aspect ratios**
-    * <img src="FIGURES/SSD/default_box.png">
+    * <img src="FIGURES/SSD/default_box.PNG">
     * default box? 정답이 될 수 있는 box의 모양을 미리 정의
     * 예측 가능한 box 의 space를 줄이기 위해 default box라는 개념 차용. 정답을 객관식으로 만들어줬다고 생각하면 쉬움
     * Faster R-CNN의 Anchor box와 유사. 
@@ -33,9 +33,9 @@
     * [MultiBox](https://pdfs.semanticscholar.org/0674/792f5edac72b77fb1297572c15b153576418.pdf) 참조
     * 모든 feature map의 모든 location에 대한 default box에 대하여, jaccard overlap이 threshold(0.5) 이상인 모든 gt box에 대하여 loss 계산
   * **Training objective**
-    * <img src="FIGURES/SSD/obj1.png">
-    * <img src="FIGURES/SSD/obj2.png">
-    * <img src="FIGURES/SSD/obj3.png">
+    * <img src="FIGURES/SSD/obj1.PNG">
+    * <img src="FIGURES/SSD/obj2.PNG">
+    * <img src="FIGURES/SSD/obj3.PNG">
   * **Hard negative mining**
     * Box match 하고나면 Negative box가 압도적으로 많음
     * 각 default box shpae별로 conf loss 내림차순으로 sort하고 top one pick. 
@@ -43,8 +43,8 @@
     
 ### 3. Results
   * **Objects detection(VOC2007)**
-    * <img src="FIGURES/SSD/res1.png">
+    * <img src="FIGURES/SSD/res1.PNG">
   * **mAP & FPS(FasterRCNN vs YOLO vs SSD)**
-    * <img src="FIGURES/SSD/res2.png">
+    * <img src="FIGURES/SSD/res2.PNG">
   * **Detection results**
-    * <img src="FIGURES/SSD/res3.png">
+    * <img src="FIGURES/SSD/res3.PNG">
