@@ -33,9 +33,9 @@
     * [MultiBox](https://pdfs.semanticscholar.org/0674/792f5edac72b77fb1297572c15b153576418.pdf) 참조
     * 모든 feature map의 모든 location에 대한 default box에 대하여, jaccard overlap이 threshold(0.5) 이상인 모든 gt box에 대하여 loss 계산
   * **Training objective**
-    * <img src="FIGURES/SSD/obj1.PNG">
-    * <img src="FIGURES/SSD/obj2.PNG">
-    * <img src="FIGURES/SSD/obj3.PNG">
+    * <img src="FIGURES/SSD/obj1.PNG" width=500px>
+    * <img src="FIGURES/SSD/obj2.PNG" width=500px>
+    * <img src="FIGURES/SSD/obj3.PNG" width=500px>
   * **Hard negative mining**
     * Box match 하고나면 Negative box가 압도적으로 많음
     * 각 default box shpae별로 conf loss 내림차순으로 sort하고 top one pick. 
