@@ -2,7 +2,7 @@
 
 ### 1. Abstract
   * Paper : https://arxiv.org/abs/1512.02325
-  * Object detection? detection 성능은 높지만 처리속도가 느린 R-CNN 계열(R-CNN,Fast R-CNN, Faster R-CNN)과 처리속도는 빠르지만 성능을 희생한 YOLO
+  * Object detection? detection 성능은 높지만 처리속도가 느린 R-CNN 계열(R-CNN,Fast R-CNN, Faster R-CNN)과 처리속도는 빠르지만 성능을 희생한 YOLO
   * SSD? Faster R-CNN에 준하는 detection 성능 + YOLO와 유사한 처리속도
   * Single Shot? 기존 R-CNN 계열의 Pipeline(Region proposal-Feature extration-Classification)과 달리, Single forward pass로 object detection 수행
   
