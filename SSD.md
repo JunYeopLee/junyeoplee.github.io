@@ -1,42 +1,46 @@
-## Rich feature hierarchies for accurate object detection and semantic segmentation (R-CNN)
+## SSD: Single Shot MultiBox Detector
 
 ### 1. Abstract
-  * Paper : https://arxiv.org/abs/1311.2524
-  * 이전에는 SIFT, HOG feature를 이용하는 method가 주류
-  * SVM에 밀렸던 CNN이 [Relu + Dropout를 더한 구조](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)로 ImageNet(classification problem)에서 선전하자, Classification feature를 Detection에 사용하고자 함.
+  * Paper : https://arxiv.org/abs/1512.02325
+  * Object detection? detection 성능은 높지만 처리속도가 느린 R-CNN 계열(R-CNN,Fast R-CNN, Faster R-CNN)과 처리속도는 빠르지만 성능을 희생한 YOLO
+  * SSD? Faster R-CNN에 준하는 detection 성능 + YOLO와 유사한 처리속도
+  * Single Shot? 기존 R-CNN 계열의 Pipeline(Region proposal-Feature extration-Classification)과 달리, Single forward pass로 object detection 수행
   
 ### 2. Network architecture
   * **Overview**
-    * <img src="FIGURES/RCNN/overview.png">
-  * **Region proposals (Selective search)**
-    * [Selective search](https://koen.me/research/pub/uijlings-ijcv2013-draft.pdf)<br>
-    * <img src="FIGURES/RCNN/selective_search.png">
-    * Bottom-up 방식의 Object region proposal method
-    * [Efficient Graph-Based Image Segmentation](https://www.cs.cornell.edu/~dph/papers/seg-ijcv.pdf)를 이용하여, region granularity를 찾은 뒤, greedy algorithm으로 hierarchical merge
-    * Colour map(RGB,gray,HSV), merge하는 과정에서 사용하는 similarity measure(colour sim, texture sim, size sim)등을 여러 combination으로 사용해서, 다양한 region proposal을 만들어냄.
-  * **Feature extraction(T-Net)**
-    * [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
-    * <img src="FIGURES/RCNN/T-Net.png">
-    * Curriculum learning
-      * Pre-train on ImageNet : ImageNet(1000개 class)에 대한 classification task를 수행하도록 pre-train한 뒤, 마지막 dense layer 제거
-      * Fine-tuning : VOC2007(20개 class) or ILSVRC2013(200개 class)에 대한 classification task를 수행하도록 fine tune. region proposal 중 GT와의 IoU가 0.5 이상인 box를 positive sample로, 이하인 box를 negative sample(background)로 사용.
-  * **Object category classifiers(SVM)**
-    * How to train
-      * Ground truth를 positive sample로 region proposal 중 IoU가 0.3 이하인 box들을 negative sample로 사용 (fine tune때보다 tight한 조건)
-    * CNN+FN+softmax Classifier(for fine-tune) VS SVM
-      * 왜 fine tune시에 훈련한 Classifier를 Object category classifier로 사용하지 않는가?
-        * SVM이 분류 성능이 더 좋았다! 이유는 tight한 조건으로 뽑아낸 training sample 덕분일 것으로 예상.
-        * 그렇다면 fine tune시에도 동일한 조건으로 training sample을 만들면 되지 않나?
-          * 우선 fine tune은 feature extractor에서, region proposal에 대한 좋은 feature를 뽑아내도록 하는 목적 (classification이 목적이아님)
-          * tight하게 training sample을 뽑게 되면, data 숫자가 모자라서 fine tune 효과가 좋지 않았다.
-          * 하지만 SVM의 경우 Deep한 CNN에 비해 비교적 적은 숫자의 data로도 훈련이 잘되기 때문에 이렇게 기준이 달라진 것.
-          * 향후 연구에서 이 SVM은 대체가 된다
-  * **Box regression**
-    * Selective search에서 propose한 region + CNN feature를 이용하여 linear regression. 
-    * Region proposal --> Ground Truth로 fitting 시키는 linear regression model을 학습
-    * Object detection scenario에서 성능이 더 좋아졌다. 
-    * <img src="FIGURES/RCNN/bb.png" width=300px> 
-
+    * <img src="FIGURES/SSD/overview.png">
+    * VGG16을 ImageNet에 pre-train 시킨 뒤 classification layer 제거
+    * VGG16 backbone 뒤에 Convolution layer를 쌓아올린 구조. Feature map size가 점차 줄어듦.
+    
+  * **Multi-scale feature maps for detection**
+    * YOLO, Overfeat이 single scale feature map을 사용하는 것과 달리, 여러개 layer에서 다양한 size의 feature map 사용
+    * backbone 뒤 쌓아올린 convolution layer와 Backbone에 속하는 convolution layer에서 추출한 feature map 사용
+    
+  * **Convolutional predictors for detection**
+    * 다양한 size의 feature map을 각각의 classifier(CNN based)에 태워줌
+    * classifier는 feature map의 각 cell마다 category score(c개의 class에 대한 확률분포)와 shape offset(cx, cy, width, heigth)을 생성
+    
+  * **Default boxes and aspect ratios**
+    * <img src="FIGURES/SSD/default_box.png">
+    * default box? 정답이 될 수 있는 box의 모양을 미리 정의
+    * 예측 가능한 box 의 space를 줄이기 위해 default box라는 개념 차용. 정답을 객관식으로 만들어줬다고 생각하면 쉬움
+    * Faster R-CNN의 Anchor box와 유사. 
+    * Diffrent default box(Shape) + Multi scale feature map(Scale) --> 다양한 모양과 크기의 bounding box 생성
+    
+### 3. Training
+  * **Matching strategy**
+    * 각각의 default box에 대하여 loss를 계산할 gt box set 선택
+    * [MultiBox](https://pdfs.semanticscholar.org/0674/792f5edac72b77fb1297572c15b153576418.pdf) 참조
+    * 모든 feature map의 모든 location에 대한 default box에 대하여, jaccard overlap이 threshold(0.5) 이상인 모든 gt box에 대하여 loss 계산
+  * **Training objective**
+    * <img src="FIGURES/SSD/obj1.png">
+    * <img src="FIGURES/SSD/obj2.png">
+    * <img src="FIGURES/SSD/obj3.png">
+  * **Hard negative mining**
+    * Box match 하고나면 Negative box가 압도적으로 많음
+    * 각 default box shpae별로 conf loss 내림차순으로 sort하고 top one pick. 
+    * Negative:Positive 비율을 최대 3:1로 제한
+    
 ### 3. Results
   * **Objects detection**
     * <img src="FIGURES/RCNN/results.png">
