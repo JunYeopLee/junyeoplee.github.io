@@ -45,6 +45,6 @@
   * **Objects detection(VOC2007)**
     * <img src="FIGURES/SSD/res1.png">
   * **mAP & FPS(FasterRCNN vs YOLO vs SSD)**
-    * <img src="FIGURES/RCNN/res2.png">
+    * <img src="FIGURES/SSD/res2.png">
   * **Detection results**
-    * <img src="FIGURES/RCNN/res3.png">
+    * <img src="FIGURES/SSD/res3.png">
