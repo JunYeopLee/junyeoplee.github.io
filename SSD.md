@@ -42,9 +42,9 @@
     * Negative:Positive 비율을 최대 3:1로 제한
     
 ### 3. Results
-  * **Objects detection**
-    * <img src="FIGURES/RCNN/results.png">
-  * **Detection average precision (%) on VOC 2007 test**
-    * <img src="FIGURES/RCNN/dap.png">
-  * **Another feature extractor(O-Net)**
-    * <img src="FIGURES/RCNN/onet.png">
+  * **Objects detection(VOC2007)**
+    * <img src="FIGURES/SSD/res1.png">
+  * **mAP & FPS(FasterRCNN vs YOLO vs SSD)**
+    * <img src="FIGURES/RCNN/res2.png">
+  * **Detection results**
+    * <img src="FIGURES/RCNN/res3.png">
