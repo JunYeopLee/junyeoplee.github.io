@@ -8,13 +8,13 @@
   * **Overview**
     * <img src="FIGURES/MVOD/overview1.png" width=400px>
     * <img src="FIGURES/MVOD/overview2.png" width=400px>
-    * Video를 Input image I의 Seqeunece로 나타냄. 각 Time step마다 [SSD]()이용하여 Image object detection을 하는 것이 기본 아이디어.
+    * Video를 Input image의 Seqeunece로 나타냄. 각 Time step마다 [SSD](https://arxiv.org/abs/1512.02325)이용하여 Image object detection을 하는 것이 기본 아이디어.
     * Image object detection의 결과를 결합하여, Video object detection을 수행하려는 과정
-      * 본 논문의 경우 LSTM 구조를 feture level에 집어 넣음으로써, unified architecture로 Video object detection 을 수행하도록 디자인
+      * 본 논문의 경우 LSTM 구조를 feature level에 집어 넣음으로써, unified architecture로 Video object detection 을 수행하도록 디자인
       * Hidden state가 3-D tensor인 convolutional LSTM 사용
       * 유사하게 Video based task에 LSTM을 사용한 모델로 [LRCN](https://arxiv.org/abs/1411.4389), [ROLO](https://arxiv.org/pdf/1607.05781.pdf)등이 있음.
       * 본 논문에서 제시한 모델의 경우, LSTM layer가 network의 최종단계에서 postprocessing 역할을 수행하는 ROLO와 다르게, feature level에서 적용된다는 점에서 차별점이 있음
-      * ROLO
+      * ROLO overview
       * <img src="FIGURES/MVOD/ROLO.png" width=400px>
   * **Integrating Convolutional LSTMs with SSD**
     * 단순히 전체 구조 중간중간에 LSTM layer를 집어 넣게되면, 연산량이 매우 증가해 real-time detector가 될 수 없음
