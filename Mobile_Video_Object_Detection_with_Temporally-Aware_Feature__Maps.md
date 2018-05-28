@@ -6,7 +6,8 @@
   * SSD(w Moblienet) [depthwise separable convolution](https://www.tensorflow.org/versions/master/api_docs/python/tf/nn/separable_conv2d) 적용, Bottleneck-LSTM을 통해 computation time을 현저히 줄임
 ### 2. Network architecture
   * **Overview**
-    * <img src="FIGURES/MVOD/overview.PNG">
+    * <img src="FIGURES/MVOD/overview1.PNG">
+    * <img src="FIGURES/MVOD/overview2.PNG">
     * Video를 Input image I의 Seqeunece로 나타냄. 각 Time step마다 [SSD]()이용하여 Image object detection을 하는 것이 기본 아이디어.
     * Image object detection의 결과를 결합하여, Video object detection을 수행하려는 과정
       * 본 논문의 경우 LSTM 구조를 feture level에 집어 넣음으로써, unified architecture로 Video object detection 을 수행하도록 디자인
@@ -31,15 +32,16 @@
     * MobileNet에서 모든 layer에 동일한 α값을 적용한 것과 달리 본 논문에서는, α_base, α_ssd, α_lstm 을 구분하여 지정
     * α_base=α, α_ssd=0.5α, α_lstm=0.25α 를 사용하였다고 함. α=[1,0.5] 에 대하여 실험.
   * **Efficient Bottleneck-LSTM layers**
-    * <img src="FIGURES/MVOD/Bottleneck_LSTM.PNG">
     * Convolution LSTM? Hidden state와 Cell state의 형태가 H*W*N이고, gate 연산과정에, linear projection 대신 convolution 사용
-    * <img src="FIGURES/MVOD/Refinement_LSTM_Equation.PNG">
     * Bottleneck-LSTM? 
+      * <img src="FIGURES/MVOD/Bottleneck_LSTM.PNG">
       * Convolution LSTM의 연산량을 줄이기 위해 본 논문에서 제안하는 구조
       * Convolution LSTM의 4개 gate 연산 시, Hidden state와 Input을 channel 방향으로 concatenate한 H*W*(N+M) Tensor 대신, 해당 Tensor를 Bottleneck Layer에 통과시킨 H*W*N Tensor 사용
       * Bottleneck Layer는 아래식 참고
       * <img src="FIGURES/MVOD/Bottleneck_Layer_Equation.PNG">
-      * Standard LSTM, GRU와 비교해서도 매우 적은수의 연산량
+      * Bottleneck LSTM이(4번식), Standard LSTM(3번식), GRU와 비교해서도 매우 적은수의 연산량을 가짐
+      * <img src="FIGURES/MVOD/Bottleneck_Layer_Equation_3.PNG">
+      * <img src="FIGURES/MVOD/Bottleneck_Layer_Equation_4.PNG">
   * **Architecture**
     * <img src="FIGURES/MVOD/table1.PNG">
     * 전체 layer 구조는 위와 같음 
@@ -54,7 +56,7 @@
       * standard LSTM, GRU와 Bottleneck LSTM 과의 성능 비교 실험
       * Bottleneck LSTM이 compatible한 성능 유지하면서 현저히 적은 Param수, 연산 수를 가짐
     * Bottleneck Dimension
-      * <img src="FIGURES/MVOD/table3.PNG">
+      * <img src="FIGURES/MVOD/fig4.PNG">
       * α_lstm을 구하기 위해 LSTM의 Output channel dimension에 따른 성능 변화 관찰
       * α_lstm=0.25α 지점 이후 성능하락 확인
     * Multiple LSTM Placement Strategies
