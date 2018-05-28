@@ -38,7 +38,7 @@
       * Convolution LSTM의 연산량을 줄이기 위해 본 논문에서 제안하는 구조
       * Convolution LSTM의 4개 gate 연산 시, Hidden state와 Input을 channel 방향으로 concatenate한 H*W*(N+M) Tensor 대신, 해당 Tensor를 Bottleneck Layer에 통과시킨 H*W*N Tensor 사용
       * Bottleneck Layer는 아래식 참고
-      * <img src="FIGURES/MVOD/Bottleneck_Layer_Equation.png" width=400px>
+      * <img src="FIGURES/MVOD/Bottleneck_Layer_Equation_1.png" width=400px>
       * Bottleneck LSTM이(4번식), Standard LSTM(3번식), GRU와 비교해서도 매우 적은수의 연산량을 가짐
       * <img src="FIGURES/MVOD/Bottleneck_Layer_Equation_3.png" width=400px>
       * <img src="FIGURES/MVOD/Bottleneck_Layer_Equation_4.png" width=400px>
